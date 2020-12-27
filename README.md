@@ -21,10 +21,11 @@ This can be done by adding the following line in the import section of your prog
 
 
 # Usage  & Example :
-**Most Important Detail :**  ⚠️ ***DO NOT RUN THIS SCRIPT AS ROOT OR WITH SUDO*** ⚠️ 
+**Most Important Detail :**  ⚠️ ***DO NOT RUN THIS SCRIPT AS ROOT OR WITH SUDO*** ⚠️
+
 In a normal **flask-app** you start the website by adding `app.run()` to the end of the program.
 Instead of doing that, you use the function provided by **hidden_services** called **run_hidden_service** and give it the
-**Required data** : 
+**Required data** :
 * ***control_port*** = [PORT_YOU_CHOSE]
 * ***application*** = [THE_VAR_OF_YOUR_APP] ( example :  **app**   from the code `app = Flask(__name__)` )
 
