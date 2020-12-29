@@ -38,6 +38,7 @@ Instead of doing that, you use the function provided by **hidden_services** call
 * ***torrc_file*** = `True` or `False` ( this will turn the generation of a torrc file **on** or **off**, it is **off** by default )
 * ***tor_password*** =  [**CUSTOM_TOR_PASSWORD**] ( if not specified, the password will be automatically generated )
 * ***hidden_dir_name*** = [**CUSTOM_NAME**] ( will set a custom name for the directory generated in `/tmp` )
+* ***show_requests*** = `True` or `False` ( this will turn the logging of requests to the website **on** or **off** )
 
 ## This is an example usage of the **run_hidden_service** function provided by my script.
 

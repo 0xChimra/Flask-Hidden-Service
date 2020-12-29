@@ -4,9 +4,18 @@ import os
 import shutil
 import sys
 import subprocess
+import logging
 
 
-def run_hidden_service(socks_port=None, control_port="", application=None, flask_port=None, verbose=True, leave_address_alive=False, torrc_file=False, tor_password=None, hidden_dir_name=None):
+def run_hidden_service(socks_port=None, control_port="", application=None, flask_port=None, verbose=True, leave_address_alive=False, torrc_file=False, tor_password=None, hidden_dir_name=None, show_requests=True):
+    
+    if show_requests == False:
+        log = logging.getLogger('werkzeug')
+        log.disabled = True
+
+    def bootstrapped(line):
+        if "Bootstrapped" in line:
+            print(line)
 
     def hash_passwd(password):
         s = subprocess.check_output(['tor', '--hash-password', password])
@@ -85,12 +94,20 @@ def run_hidden_service(socks_port=None, control_port="", application=None, flask
             s_port = str(socks_port)
             with open("torrc", "w") as f:
                 f.write("SOCKSPort " + s_port + "\nControlPort " + c_port + "\nCookieAuthentication 1\nRunAsDaemon 0\nHashedControlPassword " + hashed_password)
-            tor_process = stem.process.launch_tor(torrc_path="torrc")
+            if verbose == True:
+                tor_process = stem.process.launch_tor(torrc_path="torrc", init_msg_handler = bootstrapped)
+                print("")
+            else:
+                tor_process = stem.process.launch_tor(torrc_path="torrc")
         elif torrc_file == False:
             c_port = str(control_port)
             s_port = str(socks_port)
             torrc_config = {"SOCKSPort": s_port, "ControlPort": c_port, "CookieAuthentication": "1", "RunAsDaemon": "0", "HashedControlPassword": hashed_password}
-            tor_process = stem.process.launch_tor_with_config(config = torrc_config)
+            if verbose == True:
+                tor_process = stem.process.launch_tor_with_config(config = torrc_config, init_msg_handler = bootstrapped)
+                print("")
+            else:
+                tor_process = stem.process.launch_tor_with_config(config = torrc_config)
         else:
             if verbose == True:
                 print("Unknown input in the 'torrc_file' option ( Should be 'True' or 'False' )")
