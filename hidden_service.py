@@ -18,9 +18,9 @@ def run_hidden_service(socks_port=None, control_port="", application=None, flask
             print(line)
 
     def hash_passwd(password):
-        s = subprocess.check_output(['tor', '--hash-password', password])
-        s_ex = str(s.decode("utf-8"))
-        return s_ex
+        x = subprocess.check_output(['tor', "--quiet", '--hash-password', password])
+        y = str(x.decode("utf-8"))
+        return y
     try:
         if int(os.getuid()) == 0:
             if verbose == True:
